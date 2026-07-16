@@ -1,5 +1,7 @@
 # GPTBots Workspace Extension SDK
 
+**English** | [简体中文](./README.zh-CN.md)
+
 Build a **third-party extension app** that plugs into a GPTBots workspace. When a workspace
 user opens your app from the **Workspace → Extensions** page, GPTBots hands off the user's
 identity as a short-lived signed token (`?wsa=<JWT>`). This SDK turns that handshake into a
