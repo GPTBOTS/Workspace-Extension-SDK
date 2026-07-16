@@ -22,7 +22,7 @@ rather than treated as valid forever. When present, `iat`/`nbf` must not be in t
 
 ```ts
 interface VerifyOptions {
-  secret?: string;        // HS256 secret (per-app or shared). Required for HS256.
+  secret?: string;        // HS256 secret — your app's own secret. Required for HS256.
   publicKey?: string;     // RS256 PEM public key. Required for RS256 (roadmap).
   audience: string;       // YOUR app host — must equal the token `aud`.
   issuer?: string;        // default 'gptbots-workspace'
@@ -93,7 +93,7 @@ platform endpoint cannot pin your backend request indefinitely — a timeout thr
 
 ## Notes
 
-- **HS256 today** (shared secret for Tier 1 dictionary apps, per-app secret for Tier 2 org apps).
+- **HS256 today** — your app's own secret, issued once when the extension is registered.
 - **RS256 is on the roadmap** — pass `{ publicKey, algorithms: ['RS256'] }` once GPTBots
   distributes public keys.
 - Claims and defaults match the GPTBots Workspace platform signer:

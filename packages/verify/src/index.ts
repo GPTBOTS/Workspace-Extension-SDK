@@ -7,9 +7,8 @@
  * The token contract mirrors the GPTBots Workspace platform signer: a short-lived JWT
  *   { iss=gptbots-workspace, sub=accountId, aud=<app host>, role, workspace_id, iat, exp,
  *     username?, email?, avatar?, app_name? }
- * signed HS256 with either the platform shared secret (Tier 1 / dictionary apps) or the
- * app's own per-app secret (Tier 2 / org self-service apps). Verification is identical for
- * both — you verify with whichever secret you were given.
+ * signed HS256 with your app's own secret, issued once when the extension is registered for
+ * the organization.
  */
 import { createHmac, createVerify, timingSafeEqual } from 'node:crypto';
 
@@ -32,7 +31,7 @@ export interface WorkspaceIdentity {
 export type WsaAlgorithm = 'HS256' | 'RS256';
 
 export interface VerifyOptions {
-  /** HS256 shared/per-app secret. Required when verifying HS256 tokens. */
+  /** HS256 secret — your app's own secret. Required when verifying HS256 tokens. */
   secret?: string;
   /** RS256 public key (PEM). Required when verifying RS256 tokens (roadmap). */
   publicKey?: string;

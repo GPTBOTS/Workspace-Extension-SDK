@@ -15,16 +15,14 @@ Two packages:
 > The verification **secret never lives in the browser**. The browser posts the token to *your*
 > backend, which verifies it.
 
-## Two tiers of extension apps (same handshake)
+## Organization extension apps
 
-- **Platform public extensions (Tier 1)** — configured by GPTBots in the `WORKSPACE_EXPANSION_APPS`
-  dictionary, visible to every organization, signed with a single platform secret.
-- **Org self-service extensions (Tier 2)** — an org OWNER/ADMIN registers your app in
-  *Space Management → Extensions*; visible only to that org, signed with **your app's own
-  per-app secret** (shown once at registration). Rotating/leaking it only affects your app.
+Your app is an **organization extension**: an org OWNER/ADMIN registers it in
+*Space Management → Extensions*. It is visible only to that organization and is signed with
+**your app's own secret** (shown once at registration). Because the secret is unique to your
+app, rotating or leaking it only affects your app.
 
-Verification is **identical** for both — you call `verifyWsa(token, { secret, audience })` with
-whichever secret you were given.
+You verify the handoff by calling `verifyWsa(token, { secret, audience })` with that secret.
 
 ## Consumption is optional
 
@@ -53,7 +51,7 @@ import { verifyWsa, WsaVerificationError } from '@gptbots/workspace-extension-ve
 app.post('/session/exchange', (req, res) => {
   try {
     const identity = verifyWsa(req.body.wsa, {
-      secret: process.env.EXTENSION_APP_SECRET,   // per-app secret (Tier 2) or shared secret (Tier 1)
+      secret: process.env.EXTENSION_APP_SECRET,   // your app's secret (shown once at registration)
       audience: 'app.example.com',                 // YOUR app host — must equal the token `aud`
       // issuer: 'gptbots-workspace' (default), leewaySeconds: 30 (default), algorithms: ['HS256']
     });
@@ -100,7 +98,7 @@ open  https://app.example.com/?wsa=<JWT> ─▶ landing page
 - **Strip `wsa` immediately** (`consumeHandoff` does this) so it doesn't linger in history/Referer.
 - **Short-lived** — the token TTL is ~5 minutes; treat it as a one-time bootstrap, then use your
   own session. Never re-send `wsa` on subsequent requests.
-- **Per-app secret (Tier 2)** isolates blast radius to a single app/org. **Roadmap:** RS256
+- **Your app's own secret** isolates blast radius to a single app/org. **Roadmap:** RS256
   public-key distribution (one app, one key) — `verifyWsa` already accepts `publicKey` +
   `algorithms: ['RS256']`.
 

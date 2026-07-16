@@ -31,7 +31,7 @@ consumeHandoff(options: {
 }): Promise<WorkspaceIdentity>
 ```
 
-## Three tiers of consumption
+## Three modes of consumption
 
 ```ts
 // use — verify + session + role gating

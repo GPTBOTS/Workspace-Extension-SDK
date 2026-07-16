@@ -104,11 +104,11 @@ test('rejects a malformed token', () => {
   expectCode(() => verifyWsa('not-a-jwt', { secret: SECRET, audience: AUD }), 'InvalidToken');
 });
 
-test('a per-app secret token does NOT verify against the platform secret (isolation)', () => {
-  const perAppToken = sign(basePayload(), 'wext_perappsecret');
-  expectCode(() => verifyWsa(perAppToken, { secret: SECRET, audience: AUD }), 'InvalidSignature');
+test('a token signed with one app secret does NOT verify against a different secret (isolation)', () => {
+  const appToken = sign(basePayload(), 'wext_appsecret');
+  expectCode(() => verifyWsa(appToken, { secret: SECRET, audience: AUD }), 'InvalidSignature');
   // ...but verifies with its own secret:
-  const id = verifyWsa(perAppToken, { secret: 'wext_perappsecret', audience: AUD });
+  const id = verifyWsa(appToken, { secret: 'wext_appsecret', audience: AUD });
   assert.equal(id.accountId, 'acc-1');
 });
 
@@ -150,7 +150,7 @@ test('rejects a payload segment that is valid JSON but not an object', () => {
   expectCode(() => verifyWsa(`${header}.${payload}.${sig}`, { secret: SECRET, audience: AUD }), 'InvalidToken');
 });
 
-// ── RS256 (roadmap tier) ─────────────────────────────────────────────────────────
+// ── RS256 (roadmap) ──────────────────────────────────────────────────────────────
 
 const rsa = generateKeyPairSync('rsa', { modulusLength: 2048 });
 

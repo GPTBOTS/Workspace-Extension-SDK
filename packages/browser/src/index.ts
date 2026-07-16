@@ -4,7 +4,7 @@
  * Zero-dependency browser helpers for consuming the GPTBots Workspace login-handoff.
  *
  * Consumption is OPTIONAL — the platform hands off identity, but whether you use it is up
- * to you. Three tiers:
+ * to you. Three modes:
  *   - `use`         — verify (via your backend) and establish a session / gate by role.
  *   - `receive-only`— read the identity but don't create a session; anonymous/own-auth flow.
  *   - `ignore`      — never read it (equivalent to `auth_mode=none`).
@@ -85,7 +85,7 @@ export interface ConsumeHandoffOptions {
 }
 
 /**
- * Convenience flow for the `use` tier: read `wsa` → POST it to your backend `exchangeUrl`
+ * Convenience flow for the `use` mode: read `wsa` → POST it to your backend `exchangeUrl`
  * (which verifies it) → strip it from the URL → return the identity your backend replied with.
  * This is sugar; `receive-only`/`ignore` apps can call only `readHandoffToken` or nothing.
  */
@@ -387,7 +387,7 @@ export interface CompleteWorkspaceLoginOptions {
 }
 
 /**
- * Convenience for the `use` tier: read + validate the callback → POST `{code, codeVerifier}` to
+ * Convenience for the `use` mode: read + validate the callback → POST `{code, codeVerifier}` to
  * YOUR backend `exchangeUrl` (which calls `exchangeWorkspaceCode` + `verifyWsa`) → strip the URL
  * → return the identity your backend replied with.
  */
