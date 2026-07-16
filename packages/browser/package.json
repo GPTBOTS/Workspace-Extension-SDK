@@ -1,0 +1,23 @@
+{
+  "name": "@gptbots/workspace-extension-sdk",
+  "version": "0.1.0",
+  "description": "Zero-dependency browser helpers for the GPTBots Workspace login-handoff (wsa).",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@gptbots/workspace-extension-sdk-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "GPTBots Workspace extension-app integration SDK — backend verify + browser handoff helpers.",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "build": "npm run build --workspaces --if-present",
+    "type-check": "npm run type-check --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@gptbots/workspace-extension-verify",
+  "version": "0.1.0",
+  "description": "Backend verification of the GPTBots Workspace login-handoff (wsa) token. Zero runtime dependencies.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  }
+}
